@@ -134,11 +134,12 @@ h1, h2, h3 {
     }
 
     .grid-container {
-        width: 85vw; /* Adjust width for smaller screens */
-        height: calc(85vw * 5 / 4); /* Adjust height based on 4x5 ratio */
-        max-width: 300px; /* Optional: prevent it getting too large on slightly bigger 'mobile' screens */
-        max-height: calc(300px * 5 / 4); /* Adjust max-height based on 4x5 ratio */
+        width: 90vw; /* Use more viewport width, allowing for margins */
+        height: calc(90vw * 5 / 4); /* Adjust height based on 4x5 ratio */
+        max-width: 280px; /* Reduce max-width to better fit narrow screens */
+        max-height: calc(280px * 5 / 4); /* Adjust max-height based on new max-width */
         gap: 3px; /* Slightly smaller gap */
+        padding: 3px; /* Reduce padding on mobile */
     }
 }
 
