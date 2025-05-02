@@ -1,0 +1,317 @@
+/* Basic Reset & Body Styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #eee; /* Light text color for contrast */
+  overflow: hidden; /* Prevent scrollbars from background */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Needed for absolute positioning of children if required */
+  z-index: 1; /* Ensure content is above background */
+}
+
+/* Animated Background */
+.bg {
+  position: fixed; /* Cover the whole viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Behind the content */
+  background: linear-gradient(-45deg, #75c1df, #ADD8E6, #8fe1ec, #AFEEEE);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Basic Button Styling (can be refined) */
+button {
+  padding: 12px 25px;
+  font-size: 1.1em;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 10px;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0px);
+}
+
+/* Basic Container Styling */
+.container {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+  padding: 30px 40px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+  width: 500px; /* Adjust as needed */
+}
+
+h1, h2, h3 {
+    margin-bottom: 20px;
+}
+
+/* Score Indicator Styles */
+.score-indicator {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2em;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transform: translateY(20px);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.score-indicator.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.score-indicator.correct {
+    color: #4CAF50; /* Green */
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.score-indicator.incorrect {
+    color: #F44336; /* Red */
+     background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        width: 85%;
+        margin-left: auto; /* Center horizontally */
+        margin-right: auto; /* Center horizontally */
+    }
+    button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+    .score-indicator {
+        font-size: 1.5em;
+        top: 10px;
+        right: 10px;
+    }
+
+    .grid-container {
+        width: 85vw; /* Adjust width for smaller screens */
+        height: calc(85vw * 5 / 4); /* Adjust height based on 4x5 ratio */
+        max-width: 300px; /* Optional: prevent it getting too large on slightly bigger 'mobile' screens */
+        max-height: calc(300px * 5 / 4); /* Adjust max-height based on 4x5 ratio */
+        gap: 3px; /* Slightly smaller gap */
+    }
+}
+
+
+/* Grid Styles for Round 2 */
+.grid-container {
+  display: grid;
+  /* Define 4 columns and 5 rows */
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 5px; /* Spacing between tiles */
+  width: 320px; /* Adjust width for 4x5 */
+  height: 400px; /* Adjust height for 4x5 (5/4 * 320) */
+  margin: 20px auto; /* Center the grid */
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.tile {
+  background-color: rgba(0, 0, 0, 0.3); /* Default tile color */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em; /* For debugging index */
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.tile:hover:not(:disabled) {
+   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.tile:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.tile:disabled {
+    cursor: default;
+}
+
+
+/* Tile States */
+.tile.highlight-pattern {
+  background-color: #23a6d5; /* Highlight color when showing pattern */
+  border-color: #fff;
+}
+
+.tile.selected {
+  background-color: #e73c7e; /* Color for user-selected tiles */
+   border-color: #fff;
+}
+
+/* Result States */
+.tile.correct {
+  background-color: #4CAF50; /* Green for correct */
+  border-color: #fff;
+}
+
+.tile.incorrect {
+  background-color: #F44336; /* Red for incorrect selection */
+  border-color: #fff;
+}
+
+.tile.missed {
+  background-color: #ff9800; /* Orange for missed correct tiles */
+   border-color: #fff;
+   opacity: 0.7;
+}
+
+
+/* Responsive Grid */
+@media (max-width: 400px) {
+    .grid-container {
+        width: 200px; /* Adjust for 4 columns */
+        height: 250px; /* Adjust for 5 rows */
+    }
+    .tile {
+        font-size: 0.7em;
+    }
+}
+
+
+/* Round 3 Styles */
+.word-display {
+  /* Styles for the word being displayed */
+  font-weight: bold;
+  color: #fff;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.question-area h3 {
+    margin-bottom: 25px;
+    font-weight: normal;
+}
+
+.options-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.option-button {
+  /* Inherits base button styles, add specifics */
+  padding: 15px;
+  font-size: 1em;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid transparent; /* Base border */
+  width: 100%; /* Make buttons fill grid cells */
+  margin: 0; /* Override default button margin */
+}
+
+.option-button:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.option-button.selected {
+  background-color: #e73c7e; /* Highlight selected option */
+  border-color: #fff;
+}
+
+.option-button.correct {
+  background-color: #4CAF50 !important; /* Green for correct (override selection) */
+  color: white;
+  border-color: #fff;
+}
+
+.option-button.incorrect {
+  background-color: #F44336 !important; /* Red for incorrect */
+  color: white;
+  border-color: #fff;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+
+/* Scoreboard Styles */
+.scoreboard h1 {
+  color: #ffc107; /* Gold-ish color for title */
+}
+
+.scoreboard h2 {
+  margin-bottom: 30px;
+}
+
+.score-breakdown p {
+  margin: 8px 0;
+  font-size: 1.1em;
+  color: #ddd;
+}
+
+/* Responsive adjustments for options */
+@media (max-width: 600px) {
+    .options-container {
+        grid-template-columns: 1fr; /* Stack options vertically on small screens */
+        gap: 10px;
+    }
+     .option-button {
+        padding: 12px;
+     }
+}
